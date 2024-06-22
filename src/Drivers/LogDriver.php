@@ -1,6 +1,6 @@
 <?php
 
-namespace Iracode\FilamentNotification\Drivers;
+namespace IracodeCom\FilamentNotification\Drivers;
 
 use Illuminate\Support\Facades\Log;
 use Tzsk\Sms\Contracts\Driver;

@@ -204,6 +204,6 @@ return [
         'd7networks'         => \Tzsk\Sms\Drivers\D7networks::class,
         'hamyarsms'          => \Tzsk\Sms\Drivers\Hamyarsms::class,
         'smsapi'             => \Tzsk\Sms\Drivers\SmsApi::class,
-        'log'                => \Iracode\FilamentNotification\Drivers\LogDriver::class
+        'log'                => \IracodeCom\FilamentNotification\Drivers\LogDriver::class
     ],
 ];

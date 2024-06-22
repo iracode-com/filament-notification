@@ -1,13 +1,13 @@
 <?php
 
-namespace Iracode\FilamentNotification\Notifications;
+namespace IracodeCom\FilamentNotification\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use Iracode\FilamentNotification\Notifications\Channels\BaleChannel;
-use Iracode\FilamentNotification\Notifications\Channels\TelegramChannel;
-use Iracode\FilamentNotification\Notifications\Channels\SmsChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\BaleChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\SmsChannel;
 
 class UserNotification extends Notification
 {

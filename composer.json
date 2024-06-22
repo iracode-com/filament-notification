@@ -1,5 +1,5 @@
 {
-    "name": "iracode/filament-notification",
+    "name": "iracode-com/filament-notification",
     "license": "MIT",
     "type": "filament-plugin",
     "version": "0.0.1",
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Iracode\\FilamentNotification\\": "src/"
+            "IracodeCom\\FilamentNotification\\": "src/"
         }
     },
     "authors": [

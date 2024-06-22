@@ -1,6 +1,6 @@
 <?php
 
-namespace Iracode\FilamentNotification;
+namespace IracodeCom\FilamentNotification;
 
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;

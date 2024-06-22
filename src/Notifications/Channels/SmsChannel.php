@@ -1,6 +1,6 @@
 <?php
 
-namespace Iracode\FilamentNotification\Notifications\Channels;
+namespace IracodeCom\FilamentNotification\Notifications\Channels;
 
 use App\Models\User;
 use Illuminate\Notifications\Notification;
