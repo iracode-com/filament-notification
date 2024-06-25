@@ -3,21 +3,22 @@
 namespace IracodeCom\FilamentNotification;
 
 use Filament\Contracts\Plugin;
+use Filament\FilamentManager;
 use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use IracodeCom\FilamentNotification\Concerns\CanCustomizeColumns;
-use IracodeCom\FilamentNotification\Filament\Pages\NotificationSettingsPage;
+use IracodeCom\FilamentNotification\Concerns\CanCustomizePage;
 
 class FilamentNotificationPlugin implements Plugin
 {
-    use CanCustomizeColumns;
+    use CanCustomizeColumns, CanCustomizePage;
 
     /**
      * @return string
      */
     public function getId() : string
     {
-        return 'filament-notification';
+        return 'iracode-filament-notification';
     }
 
     /**
@@ -26,9 +27,7 @@ class FilamentNotificationPlugin implements Plugin
      */
     public function register( Panel $panel ) : void
     {
-        $panel->pages( [
-            NotificationSettingsPage::class
-        ] );
+        $panel->pages( [ $this->getPage() ] );
     }
 
     /**
@@ -40,8 +39,8 @@ class FilamentNotificationPlugin implements Plugin
         $panel->userMenuItems( [
 
             MenuItem::make()
-                    ->label( 'Notifications' )
-                    ->url( NotificationSettingsPage::getUrl() )
+                    ->label( __( 'iracode-filament-notification::label.Notifications' ) )
+                    ->url( $this->page::getUrl() )
                     ->icon( 'heroicon-s-bell-alert' ),
 
         ] );
@@ -56,9 +55,9 @@ class FilamentNotificationPlugin implements Plugin
     }
 
     /**
-     * @return static
+     * @return Plugin|FilamentManager
      */
-    public static function get() : static
+    public static function get() : FilamentManager | Plugin
     {
         return filament( app( static::class )->getId() );
     }

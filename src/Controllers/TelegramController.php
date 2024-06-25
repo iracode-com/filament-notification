@@ -19,7 +19,7 @@ class TelegramController extends Controller
      */
     public function __construct()
     {
-        $this->telegram = new Api( config( 'services.telegram.bot_token' ) );
+        $this->telegram = new Api( env( 'TELEGRAM_BOT_TOKEN' ) );
     }
 
     /**
@@ -49,14 +49,14 @@ class TelegramController extends Controller
 
                     $this->telegram->sendMessage( [
                         'chat_id' => $chatId,
-                        'text'    => "Your Telegram chat ID has been registered successfully!",
+                        'text'    => __( 'iracode-filament-notification::notification.telegram.registered' ),
                     ] );
                 }
                 else
                 {
                     $this->telegram->sendMessage( [
                         'chat_id' => $chatId,
-                        'text'    => "Invalid user ID.",
+                        'text'    => __( 'iracode-filament-notification::notification.telegram.invalid' ),
                     ] );
                 }
             }

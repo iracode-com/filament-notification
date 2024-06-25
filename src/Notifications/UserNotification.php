@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use IracodeCom\FilamentNotification\Notifications\Channels\BaleChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\FilamentChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\SmsChannel;
 
@@ -23,7 +24,7 @@ class UserNotification extends Notification
 
     public function via( User $notifiable )
     {
-        $channels = [ 'mail' ];
+        $channels = [ FilamentChannel::class ];
 
         if ( $notifiable->prefers_telegram )
         {

@@ -9,6 +9,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use IracodeCom\FilamentNotification\FilamentNotificationPlugin;
 use Telegram\Bot\Api;
@@ -18,12 +19,20 @@ class NotificationSettingsPage extends Page implements HasForms
 {
     use Forms\Concerns\InteractsWithForms;
 
+    public $telegram_chat_id;
+    public $bale_chat_id;
+    public $notify_bale;
+    public $notify_telegram;
+    public $notify_sms;
+
     /** @var string|null */
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
+    /** @var string|null  */
+    protected static ?string $slug = 'notification-settings';
+
     /** @var string */
-//    protected static string $view = 'filament-notification::filament.pages.notification-settings';
-    protected static string $view = 'filament.pages.notification-settings';
+    protected static string $view = 'iracode-filament-notification::filament.pages.notification-settings';
 
     /**
      * @return bool
@@ -33,11 +42,10 @@ class NotificationSettingsPage extends Page implements HasForms
         return false;
     }
 
-    public $telegram_chat_id;
-    public $bale_chat_id;
-    public $notify_bale;
-    public $notify_telegram;
-    public $notify_sms;
+    public function getTitle() : string | Htmlable
+    {
+        return __( 'iracode-filament-notification::pages.title' );
+    }
 
     /**
      * @return void
@@ -61,14 +69,14 @@ class NotificationSettingsPage extends Page implements HasForms
         $form = $this->form->getState();
 
         Auth::user()->fill( [
-            'notify_bale'     => $form[ 'notify_bale' ],
-            'notify_telegram' => $form[ 'notify_telegram' ],
-            'notify_sms'      => $form[ 'notify_sms' ],
-            'bale_chat_id'    => $form[ 'bale_chat_id' ],
+            'prefers_bale'     => $form[ 'notify_bale' ],
+            'prefers_telegram' => $form[ 'notify_telegram' ],
+            'prefers_sms'      => $form[ 'notify_sms' ],
+            'bale_chat_id'     => $form[ 'bale_chat_id' ],
         ] )->save();
 
         Notification::make()
-                    ->body( 'Notification settings updated successfully!' )
+                    ->body( __( 'iracode-filament-notification::notification.save' ) )
                     ->success()
                     ->send()
         ;
@@ -101,7 +109,7 @@ class NotificationSettingsPage extends Page implements HasForms
     {
         return [
             Action::make( 'save' )
-                  ->label( 'Save Bale Chat ID' )
+                  ->label( __( 'filament-actions::edit.single.modal.actions.save.label' ) )
                   ->action( 'save' )
                   ->requiresConfirmation(),
         ];
@@ -120,15 +128,15 @@ class NotificationSettingsPage extends Page implements HasForms
 
 
                     Forms\Components\Toggle::make( 'notify_bale' )
-                                           ->label( 'Notify via Bale' )
+                                           ->label( __( 'iracode-filament-notification::label.NotifyBale' ) )
                                            ->default( false ),
 
                     Forms\Components\Toggle::make( 'notify_telegram' )
-                                           ->label( 'Notify via Telegram' )
+                                           ->label( __( 'iracode-filament-notification::label.NotifyTelegram' ) )
                                            ->default( false ),
 
                     Forms\Components\Toggle::make( 'notify_sms' )
-                                           ->label( 'Notify via SMS' )
+                                           ->label( __( 'iracode-filament-notification::label.NotifySMS' ) )
                                            ->default( false ),
 
                 ] )
@@ -139,8 +147,8 @@ class NotificationSettingsPage extends Page implements HasForms
                 ->schema( [
 
                     Forms\Components\TextInput::make( 'telegram_chat_id' )
-                                              ->label( 'Telegram Chat ID' )
-                                              ->hint( 'To register your Telegram Chat ID, click the bottom below:' )
+                                              ->label( __( 'iracode-filament-notification::label.TelegramChatID.label' ) )
+                                              ->hint( __( 'iracode-filament-notification::label.TelegramChatID.hint' ) )
                                               ->suffixAction(
                                                   ComponentsAction::make( 'telegram' )
                                                                   ->url( $this->getTelegramLink() )
@@ -149,7 +157,7 @@ class NotificationSettingsPage extends Page implements HasForms
                                               ->disabled(),
 
                     Forms\Components\TextInput::make( 'bale_chat_id' )
-                                              ->label( 'Bale Chat ID' )
+                                              ->label( __( 'iracode-filament-notification::label.BaleChatID' ) )
                                               ->required(),
 
                 ] )

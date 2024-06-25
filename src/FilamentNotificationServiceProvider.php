@@ -16,11 +16,12 @@ class FilamentNotificationServiceProvider extends PackageServiceProvider
      */
     public function configurePackage( Package $package ) : void
     {
-        $package->name( 'filament-notification' )
-                ->hasMigrations()
-                ->hasConfigFile()
+        $package->name( 'iracode-filament-notification' )
+                ->hasMigration( '2024_06_22_133203_add_notification_preferences_to_users_table' )
+                ->hasConfigFile( 'sms' )
                 ->hasViews()
-                ->hasRoute('web')
+                ->hasTranslations()
+                ->hasRoute( 'web' )
         ;
     }
 
