@@ -21,9 +21,9 @@ class NotificationSettingsPage extends Page implements HasForms
     /** @var string|null */
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
-    /** @var string  */
-    protected static string $view = 'filament-notification::filament.pages.notification-settings';
-//    protected static string $view = 'filament.pages.notification-settings';
+    /** @var string */
+//    protected static string $view = 'filament-notification::filament.pages.notification-settings';
+    protected static string $view = 'filament.pages.notification-settings';
 
     /**
      * @return bool
@@ -78,13 +78,19 @@ class NotificationSettingsPage extends Page implements HasForms
 
     /**
      * @return string
-     * @throws TelegramSDKException
      */
     public function getTelegramLink() : string
     {
-        $telegram            = new Api( env( 'TELEGRAM_BOT_TOKEN' ) );
-        $response            = $telegram->getMe();
-        $telegramBotUsername = $response->getUsername();
+        try
+        {
+            $telegram            = new Api( env( 'TELEGRAM_BOT_TOKEN' ) );
+            $response            = $telegram->getMe();
+            $telegramBotUsername = $response->getUsername();
+        }
+        catch ( \Exception )
+        {
+            $telegramBotUsername = '';
+        }
         return "https://t.me/$telegramBotUsername?start=" . base64_encode( Auth::id() );
     }
 

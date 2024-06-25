@@ -4,10 +4,10 @@ namespace IracodeCom\FilamentNotification;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentNotificationServiceProvider extends ServiceProvider
+class FilamentNotificationServiceProvider extends PackageServiceProvider
 {
 
     /**
@@ -23,6 +23,7 @@ class FilamentNotificationServiceProvider extends ServiceProvider
                 ->hasRoute('web')
         ;
     }
+
 
     /**
      * @return void
