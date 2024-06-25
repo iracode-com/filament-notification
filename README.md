@@ -101,3 +101,133 @@ SMS_NUMBER=
 TELEGRAM_BOT_TOKEN=
 BALE_BOT_TOKEN=
 ```
+
+# how to use
+
+For Example Create One `Notification` Form Laravel:
+> You Can Create Your Custom Notification Also
+```php
+<?php
+
+namespace IracodeCom\FilamentNotification\Notifications;
+
+use App\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
+use IracodeCom\FilamentNotification\Notifications\Channels\BaleChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\FilamentChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\SmsChannel;
+
+class UserNotification extends Notification
+{
+    use Queueable;
+
+    protected $message;
+
+    public function __construct( $message )
+    {
+        $this->message = $message;
+    }
+
+    public function via( User $notifiable )
+    {
+        $channels = [ FilamentChannel::class ];
+
+        if ( $notifiable->prefers_telegram )
+        {
+            $channels[] = TelegramChannel::class;
+        }
+
+        if ( $notifiable->prefers_sms )
+        {
+            $channels[] = SmsChannel::class;
+        }
+
+        if ( $notifiable->prefers_bale )
+        {
+            $channels[] = BaleChannel::class;
+        }
+
+        return $channels;
+    }
+
+    public function toMail( $notifiable )
+    {
+        return ( new MailMessage )
+            ->line( $this->message )
+        ;
+    }
+
+    public function toTelegram( $notifiable )
+    {
+        return [
+            'text' => $this->message,
+        ];
+    }
+
+    public function toSms( $notifiable )
+    {
+        return [
+            'body' => $this->message,
+        ];
+    }
+
+    public function toBale( $notifiable )
+    {
+        return [
+            'text' => $this->message,
+        ];
+    }
+
+    public function toFilament( $notifiable )
+    {
+        return [
+            'body' => $this->message,
+        ];
+    }
+}
+```
+
+Example Code Using:
+```php
+use IracodeCom\FilamentNotification\Notifications\UserNotification;
+
+$user = \App\Models\User::find( 1 );
+$user->notify(
+    new UserNotification( 'Hello' )
+);
+```
+
+
+```php
+use IracodeCom\FilamentNotification\Notifications\UserNotification;
+use \App\Models\User;
+
+foreach ( User::all() as $user )
+{
+
+    $user->notify( new UserNotification( 'Welcome' ) );
+
+}
+
+// Or
+
+User::get()->each->notify( new UserNotification( 'Welcome' ) );
+
+```
+
+If You Like Make New Notification, Can Use Thia Command
+
+```bash
+php artisan make:notification YOUR_NOTIFICATION_NAME
+```
+
+# Security
+
+If you discover any security related issues, please email aliw1382@gmail.com instead of using the issue tracker.
+
+# License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

@@ -18,7 +18,7 @@ trait CanCustomizeColumns
      * @param array|int|string $gridColumnNotify
      * @return $this
      */
-    public function setGridColumnNotify( array | int | string $gridColumnNotify ) : static
+    public function setGridColumnNotify( array | int | string $gridColumnNotify = 3 ) : static
     {
         $this->gridColumnNotify = $gridColumnNotify;
         return $this;
@@ -36,7 +36,7 @@ trait CanCustomizeColumns
      * @param array|int|string $sectionColumnSpan
      * @return $this
      */
-    public function setSectionColumnSpan( array | int | string $sectionColumnSpan ) : static
+    public function setSectionColumnSpan( array | int | string $sectionColumnSpan = 'full' ) : static
     {
         $this->sectionColumnSpan = $sectionColumnSpan;
         return $this;
@@ -54,7 +54,7 @@ trait CanCustomizeColumns
      * @param array|int|string $gridColumnConfig
      * @return $this
      */
-    public function setGridColumnConfig( array | int | string $gridColumnConfig ) : static
+    public function setGridColumnConfig( array | int | string $gridColumnConfig = 2 ) : static
     {
         $this->gridColumnConfig = $gridColumnConfig;
         return $this;
