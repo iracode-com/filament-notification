@@ -30,6 +30,10 @@ class FilamentChannel
                             ->color( $message->get( 'color' ) )
                             ->iconColor( $message->get( 'iconColor' ) )
                             ->send()
+                            ->when(
+                                $message->get( 'toDatabase', false ),
+                                fn( NotificationFilament $filament ) => $filament->toDatabase()
+                            )
         ;
 
     }
