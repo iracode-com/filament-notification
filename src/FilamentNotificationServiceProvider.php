@@ -2,6 +2,8 @@
 
 namespace IracodeCom\FilamentNotification;
 
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
@@ -17,12 +19,19 @@ class FilamentNotificationServiceProvider extends ServiceProvider
         $package->name( 'filament-notification' )
                 ->hasMigrations()
                 ->hasConfigFile()
+                ->hasViews()
+                ->hasRoute('web')
         ;
     }
 
-    public function boot()
+    /**
+     * @return void
+     */
+    public static function InstallPackage()
     {
 
+        if ( ! File::exists( app_path( 'Providers/Filament/' ) ) )
+            Artisan::call( 'filament:install --panels' );
 
     }
 

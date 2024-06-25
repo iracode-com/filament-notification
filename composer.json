@@ -2,7 +2,7 @@
     "name": "iracode-com/filament-notification",
     "license": "MIT",
     "type": "filament-plugin",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "keywords": [
         "laravel",
         "filament",
@@ -21,17 +21,25 @@
             "homepage": "https://github.com/aliw1382"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=8.1",
         "laravel/framework": "^8.0|^9.0|^10.0|^11.0",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
         "filament/filament": "^3.2",
         "spatie/laravel-package-tools": "^1.16.4",
+        "guzzlehttp/guzzle": "^7.8",
+        "irazasyed/telegram-bot-sdk": "^3.14",
         "tzsk/sms": "^8.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^7.0|^8.0|^9.0",
         "ext-soap": "*"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "IracodeCom\\FilamentNotification\\FilamentNotificationServiceProvider::InstallPackage"
+        ]
     }
 }

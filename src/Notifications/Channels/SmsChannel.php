@@ -23,6 +23,10 @@ class SmsChannel
 
         $message = $notification->toSms( $notifiable );
 
+        /*\sms()->send( "patterncode=" . $message[ 'body' ] . " \n arg1=name \n arg2=family" )
+              ->to( $notifiable->routeNotificationFor( 'sms' ) )
+              ->dispatch()
+        ;*/
         Sms::send( $message[ 'body' ], function ( $sms ) use ( $notifiable ) {
             $sms->to( $notifiable->routeNotificationFor( 'sms' ) );
         } );

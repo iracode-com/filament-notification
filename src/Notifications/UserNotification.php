@@ -2,6 +2,7 @@
 
 namespace IracodeCom\FilamentNotification\Notifications;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -20,7 +21,7 @@ class UserNotification extends Notification
         $this->message = $message;
     }
 
-    public function via( $notifiable )
+    public function via( User $notifiable )
     {
         $channels = [ 'mail' ];
 
@@ -67,6 +68,13 @@ class UserNotification extends Notification
     {
         return [
             'text' => $this->message,
+        ];
+    }
+
+    public function toFilament( $notifiable )
+    {
+        return [
+            'body' => $this->message,
         ];
     }
 }

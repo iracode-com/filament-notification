@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->boolean( 'prefers_sms' )->default( false );
             $table->boolean( 'prefers_bale' )->default( false );
             $table->string( 'telegram_chat_id', 30 )->nullable();
-            $table->string( 'phone_number', 20 )->nullable();
+            $table->string( 'phone', 20 )->nullable();
             $table->string( 'bale_chat_id', 30 )->nullable();
         } );
     }
@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->dropColumn( 'prefers_sms' );
             $table->dropColumn( 'prefers_bale' );
             $table->dropColumn( 'telegram_chat_id' );
-            $table->dropColumn( 'phone_number' );
+            $table->dropColumn( 'phone' );
             $table->dropColumn( 'bale_chat_id' );
         } );
     }
