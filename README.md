@@ -6,6 +6,26 @@ First Install Package
 $ composer require iracode-com/filament-notification
 ```
 
+Add Provider To Providers Project
+> laravel 11 `bootstrap/providers.php`
+```php
+<?php
+
+return [
+    App\Providers\AppServiceProvider::class,
+    App\Providers\Filament\AdminPanelProvider::class,
+    \IracodeCom\FilamentNotification\FilamentNotificationServiceProvider::class, // <---
+];
+```
+> Laravel 10 or .... `config/app.php`
+```php
+'providers' => ServiceProvider::defaultProviders()->merge( [
+
+    \IracodeCom\FilamentNotification\FilamentNotificationServiceProvider::class, // <---
+
+] )->toArray(),
+```
+
 Publish The Provider Files To Project
 
 ```bash
@@ -118,41 +138,45 @@ For Example Create One `Notification` Form Laravel:
 
 namespace IracodeCom\FilamentNotification\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use IracodeCom\FilamentNotification\Notifications\Channels\BaleChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\FilamentChannel;
-use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\SmsChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
+
 
 class UserNotification extends Notification
 {
     use Queueable;
 
-    protected $message;
-
-    public function __construct( $message )
+    /**
+     * Create a new notification instance.
+     */
+    public function __construct( protected string $message, protected bool $bale = true, protected bool $telegram = true, protected bool $sms = true )
     {
-        $this->message = $message;
     }
 
-    public function via( User $notifiable )
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @return array<int, string>
+     */
+    public function via( $notifiable ) : array
     {
         $channels = [ FilamentChannel::class ];
 
-        if ( $notifiable->prefers_telegram )
+        if ( $notifiable->prefers_telegram && $this->telegram )
         {
             $channels[] = TelegramChannel::class;
         }
 
-        if ( $notifiable->prefers_sms )
+        if ( $notifiable->prefers_sms && $this->sms )
         {
             $channels[] = SmsChannel::class;
         }
 
-        if ( $notifiable->prefers_bale )
+        if ( $notifiable->prefers_bale && $this->bale )
         {
             $channels[] = BaleChannel::class;
         }
@@ -160,40 +184,35 @@ class UserNotification extends Notification
         return $channels;
     }
 
-    public function toMail( $notifiable )
-    {
-        return ( new MailMessage )
-            ->line( $this->message )
-        ;
-    }
 
-    public function toTelegram( $notifiable )
+    public function toTelegram( $notifiable ) : array
     {
         return [
             'text' => $this->message,
         ];
     }
 
-    public function toSms( $notifiable )
+    public function toSms( $notifiable ) : array
     {
         return [
             'body' => $this->message,
         ];
     }
 
-    public function toBale( $notifiable )
+    public function toBale( $notifiable ) : array
     {
         return [
             'text' => $this->message,
         ];
     }
 
-    public function toFilament( $notifiable )
+    public function toFilament( $notifiable ) : array
     {
         return [
             'body' => $this->message,
         ];
     }
+
 }
 ```
 
@@ -232,6 +251,8 @@ php artisan make:notification YOUR_NOTIFICATION_NAME
 ```
 
 # SetWebHook Telegram
+
+Run The This Url
 
 `domain.com/telegram/set-webhook`
 

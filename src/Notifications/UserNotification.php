@@ -2,41 +2,45 @@
 
 namespace IracodeCom\FilamentNotification\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use IracodeCom\FilamentNotification\Notifications\Channels\BaleChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\FilamentChannel;
-use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\SmsChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
+
 
 class UserNotification extends Notification
 {
     use Queueable;
 
-    protected $message;
-
-    public function __construct( $message )
+    /**
+     * Create a new notification instance.
+     */
+    public function __construct( protected string $message, protected bool $bale = true, protected bool $telegram = true, protected bool $sms = true )
     {
-        $this->message = $message;
     }
 
-    public function via( User $notifiable )
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @return array<int, string>
+     */
+    public function via( $notifiable ) : array
     {
         $channels = [ FilamentChannel::class ];
 
-        if ( $notifiable->prefers_telegram )
+        if ( $notifiable->prefers_telegram && $this->telegram )
         {
             $channels[] = TelegramChannel::class;
         }
 
-        if ( $notifiable->prefers_sms )
+        if ( $notifiable->prefers_sms && $this->sms )
         {
             $channels[] = SmsChannel::class;
         }
 
-        if ( $notifiable->prefers_bale )
+        if ( $notifiable->prefers_bale && $this->bale )
         {
             $channels[] = BaleChannel::class;
         }
@@ -44,38 +48,33 @@ class UserNotification extends Notification
         return $channels;
     }
 
-    public function toMail( $notifiable )
-    {
-        return ( new MailMessage )
-            ->line( $this->message )
-        ;
-    }
 
-    public function toTelegram( $notifiable )
+    public function toTelegram( $notifiable ) : array
     {
         return [
             'text' => $this->message,
         ];
     }
 
-    public function toSms( $notifiable )
+    public function toSms( $notifiable ) : array
     {
         return [
             'body' => $this->message,
         ];
     }
 
-    public function toBale( $notifiable )
+    public function toBale( $notifiable ) : array
     {
         return [
             'text' => $this->message,
         ];
     }
 
-    public function toFilament( $notifiable )
+    public function toFilament( $notifiable ) : array
     {
         return [
             'body' => $this->message,
         ];
     }
+
 }

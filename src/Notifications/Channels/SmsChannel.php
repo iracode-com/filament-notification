@@ -10,11 +10,11 @@ class SmsChannel
 {
 
     /**
-     * @param User $notifiable
+     * @param $notifiable
      * @param Notification $notification
      * @return void
      */
-    public function send( User $notifiable, Notification $notification ) : void
+    public function send( $notifiable, Notification $notification ) : void
     {
         if ( ! $notifiable->routeNotificationFor( 'sms' ) )
         {
