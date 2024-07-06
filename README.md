@@ -142,7 +142,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use IracodeCom\FilamentNotification\Notifications\Channels\BaleChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\FilamentChannel;
-use IracodeCom\FilamentNotification\Notifications\Channels\SmsChannel;
+use IracodeCom\FilamentNotification\Notifications\Channels\FarazSmsPatternChannel;
 use IracodeCom\FilamentNotification\Notifications\Channels\TelegramChannel;
 
 
@@ -173,7 +173,7 @@ class UserNotification extends Notification
 
         if ( $notifiable->prefers_sms && $this->sms )
         {
-            $channels[] = SmsChannel::class;
+            $channels[] = FarazSmsPatternChannel::class;
         }
 
         if ( $notifiable->prefers_bale && $this->bale )

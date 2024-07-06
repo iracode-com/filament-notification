@@ -2,6 +2,8 @@
 
 return [
 
-    'table' => 'users'
+    'table' => 'users',
+
+    'has_column_phone' => false,
 
 ];

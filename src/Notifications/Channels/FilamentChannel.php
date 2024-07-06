@@ -25,10 +25,10 @@ class FilamentChannel
 
         NotificationFilament::make()
                             ->body( $message->get( 'body' ) )
-                            ->icon( $message->get( 'icon' ) )
-                            ->status( $message->get( 'status' ) )
-                            ->color( $message->get( 'color' ) )
-                            ->iconColor( $message->get( 'iconColor' ) )
+                            ->icon( $message->get( 'icon', 'heroicon-o-check-circle' ) )
+                            ->status( $message->get( 'status', 'success' ) )
+                            ->color( $message->get( 'color', 'success' ) )
+                            ->iconColor( $message->get( 'iconColor', 'success' ) )
                             ->send()
                             ->when(
                                 $message->get( 'toDatabase', false ),
