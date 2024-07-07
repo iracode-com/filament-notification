@@ -32,7 +32,7 @@ class FilamentChannel
                             ->send()
                             ->when(
                                 $message->get( 'toDatabase', false ),
-                                fn( NotificationFilament $filament ) => $filament->toDatabase()
+                                fn( NotificationFilament $filament ) => $filament->sendToDatabase( $notifiable )
                             )
         ;
 
